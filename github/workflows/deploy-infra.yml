@@ -44,8 +44,8 @@ jobs:
       - name: Deploy Infrastructure
         run: |
           az deployment sub create \
-            --location $LOCATION \
+            --location ${{ env.LOCATION }} \
             --template-file infra/bicep/main.bicep \
             --parameters \
               environment=${{ inputs.environment }} \
-              appName=$APP_NAME
+              appName=${{ env.APP_NAME }}
