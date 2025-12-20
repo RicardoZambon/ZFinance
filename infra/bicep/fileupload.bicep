@@ -8,6 +8,12 @@ param blobContainerName string
 @description('Storage Account BLOB endpoint')
 param blobEndpoint string
 
+@description('Storage Account ID')
+param storageAccountId string
+
+@description('Storage Account Name')
+param storageAccountName string
+
 @description('Environment name (dev, prod, etc)')
 param environment string = 'DEV'
 
@@ -18,6 +24,12 @@ param location string = resourceGroup().location
 /* Variables */
 var appInsightsName = '${appName}-AppInsights-${toUpper(environment)}'
 var functionAppName = '${appName}-${toUpper(environment)}'
+
+// Built-in Azure role definition IDs are stable across all Azure subscriptions
+// See: https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles
+var builtInRoleDefinitionIds = {
+  storageBlobDataContributor: 'ba92f5b4-2d11-453d-a403-e96b0029c9fe'
+}
 
 /*
  * Application Insights
@@ -81,5 +93,25 @@ resource functionApp 'Microsoft.Web/sites@2025-03-01' = {
     }
     httpsOnly: true
     ftpsState: 'FtpsOnly'
+  }
+}
+
+/*
+ * Reference to existing Storage Account
+ */
+resource storageAccount 'Microsoft.Storage/storageAccounts@2025-06-01' existing = {
+  name: storageAccountName
+}
+
+/*
+ * Role Assignment - Grant Function App access to Storage Account
+ */
+resource roleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
+  name: guid(storageAccountId, functionApp.id, builtInRoleDefinitionIds.storageBlobDataContributor)
+  scope: storageAccount
+  properties: {
+    roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', builtInRoleDefinitionIds.storageBlobDataContributor)
+    principalId: functionApp.identity.principalId
+    principalType: 'ServicePrincipal'
   }
 }

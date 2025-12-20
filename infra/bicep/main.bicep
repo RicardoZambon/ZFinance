@@ -44,6 +44,8 @@ module fileUpload './fileupload.bicep' = {
     appName: toLower(appName)
     blobContainerName: storage.outputs.containerName
     blobEndpoint: storage.outputs.blobEndpoint
+    storageAccountId: storage.outputs.storageAccountId
+    storageAccountName: storage.outputs.storageAccountName
     environment: toUpper(environment)
     location: location
   }
