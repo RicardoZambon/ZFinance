@@ -46,7 +46,14 @@ resource filesContainer 'Microsoft.Storage/storageAccounts/blobServices/containe
 
 
 /* Outputs */
+@description('The name of the Storage Account')
 output storageAccountName string = storageAccount.name
+
+@description('The resource ID of the Storage Account')
 output storageAccountId string = storageAccount.id
+
+@description('The Blob endpoint of the Storage Account')
 output blobEndpoint string = storageAccount.properties.primaryEndpoints.blob
+
+@description('The name of the Blob container for uploaded files')
 output containerName string = filesContainer.name

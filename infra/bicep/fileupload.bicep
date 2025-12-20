@@ -31,9 +31,8 @@ var builtInRoleDefinitionIds = {
   storageBlobDataContributor: 'ba92f5b4-2d11-453d-a403-e96b0029c9fe'
 }
 
-/*
- * Application Insights
- */
+
+/* Application Insights */
 resource appInsights 'Microsoft.Insights/components@2020-02-02' = {
   name: appInsightsName
   location: location
@@ -43,9 +42,7 @@ resource appInsights 'Microsoft.Insights/components@2020-02-02' = {
   }
 }
 
-/*
- * App Service Plan (Consumption)
- */
+/* App Service Plan (Consumption) */
 resource hostingPlan 'Microsoft.Web/serverfarms@2025-03-01' = {
   name: '${functionAppName}-plan'
   location: location
@@ -55,9 +52,7 @@ resource hostingPlan 'Microsoft.Web/serverfarms@2025-03-01' = {
   }
 }
 
-/*
- * Function App
- */
+/* Function App */
 resource functionApp 'Microsoft.Web/sites@2025-03-01' = {
   name: functionAppName
   location: location
@@ -92,20 +87,15 @@ resource functionApp 'Microsoft.Web/sites@2025-03-01' = {
       ]
     }
     httpsOnly: true
-    ftpsState: 'FtpsOnly'
   }
 }
 
-/*
- * Reference to existing Storage Account
- */
+/* Reference to existing Storage Account */
 resource storageAccount 'Microsoft.Storage/storageAccounts@2025-06-01' existing = {
   name: storageAccountName
 }
 
-/*
- * Role Assignment - Grant Function App access to Storage Account
- */
+/* Role Assignment - Grant Function App access to Storage Account */
 resource roleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
   name: guid(storageAccountId, functionApp.id, builtInRoleDefinitionIds.storageBlobDataContributor)
   scope: storageAccount
@@ -115,3 +105,14 @@ resource roleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
     principalType: 'ServicePrincipal'
   }
 }
+
+
+/* Outputs */
+@description('The resource ID of the Function App')
+output functionAppId string = functionApp.id
+
+@description('The name of the Function App')
+output functionAppName string = functionApp.name
+
+@description('The principal ID of the Function App\'s managed identity')
+output functionAppPrincipalId string = functionApp.identity.principalId
