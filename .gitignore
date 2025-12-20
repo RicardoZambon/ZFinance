@@ -416,3 +416,6 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
+
+# Bicep generated ARM templates
+infra/bicep/*.json
