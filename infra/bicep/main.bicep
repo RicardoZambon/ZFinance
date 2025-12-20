@@ -30,7 +30,7 @@ module storage './storage.bicep' = {
   name: 'ledgerflow-storage'
   scope: ledgerFlowRg
   params: {
-    appName: toLower(appName)
+    appName: appName
     environment: toUpper(environment)
     location: location
   }
@@ -41,7 +41,7 @@ module fileUpload './fileupload.bicep' = {
   name: 'ledgerflow-fileupload'
   scope: ledgerFlowRg
   params: {
-    appName: toLower(appName)
+    appName: appName
     blobContainerName: storage.outputs.containerName
     blobEndpoint: storage.outputs.blobEndpoint
     storageAccountId: storage.outputs.storageAccountId

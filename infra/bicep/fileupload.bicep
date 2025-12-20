@@ -5,7 +5,7 @@ param appName string = 'LedgerFlow'
 @description('Blob container name for uploaded files')
 param blobContainerName string
 
-@description('Storage Account BLOB endpoint')
+@description('Storage Account Blob endpoint')
 param blobEndpoint string
 
 @description('Storage Account ID')

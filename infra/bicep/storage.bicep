@@ -9,7 +9,7 @@ param environment string = 'DEV'
 param location string = resourceGroup().location
 
 @description('Blob container name for uploaded files')
-param receiptsContainerName string = 'files'
+param filesContainerName string = 'files'
 
 
 /* Variables */
@@ -36,9 +36,9 @@ resource blobService 'Microsoft.Storage/storageAccounts/blobServices@2025-06-01'
   name: 'default'
 }
 
-resource receiptsContainer 'Microsoft.Storage/storageAccounts/blobServices/containers@2025-06-01' = {
+resource filesContainer 'Microsoft.Storage/storageAccounts/blobServices/containers@2025-06-01' = {
   parent: blobService
-  name: receiptsContainerName
+  name: filesContainerName
   properties: {
     publicAccess: 'None'
   }
@@ -49,5 +49,5 @@ resource receiptsContainer 'Microsoft.Storage/storageAccounts/blobServices/conta
 output storageAccountName string = storageAccount.name
 output storageAccountId string = storageAccount.id
 output blobEndpoint string = storageAccount.properties.primaryEndpoints.blob
-output containerName string = receiptsContainer.name
+output containerName string = filesContainer.name
 output storageAccountKey string = storageAccount.listKeys().keys[0].value
