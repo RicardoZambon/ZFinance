@@ -77,8 +77,8 @@ resource functionApp 'Microsoft.Web/sites@2025-03-01' = {
           value: 'dotnet-isolated'
         }
         {
-          name: 'APPINSIGHTS_INSTRUMENTATIONKEY'
-          value: appInsights.properties.InstrumentationKey
+          name: 'APPLICATIONINSIGHTS_CONNECTION_STRING'
+          value: appInsights.properties.ConnectionString
         }
         {
           name: 'Blob__ContainerName'
