@@ -50,3 +50,4 @@ output storageAccountName string = storageAccount.name
 output storageAccountId string = storageAccount.id
 output blobEndpoint string = storageAccount.properties.primaryEndpoints.blob
 output containerName string = receiptsContainer.name
+output storageAccountKey string = storageAccount.listKeys().keys[0].value
