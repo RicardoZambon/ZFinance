@@ -13,7 +13,7 @@ param filesContainerName string = 'files'
 
 
 /* Variables */
-var storageAccountName = toLower('${appName}-SA-${toUpper(environment)}')
+var storageAccountName = toLower('${appName}-sa-${toUpper(environment)}')
 
 
 /* Resources */
