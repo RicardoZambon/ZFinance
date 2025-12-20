@@ -24,7 +24,12 @@ param location string = resourceGroup().location
 /* Variables */
 var appInsightsName = '${appName}-AppInsights-${toUpper(environment)}'
 var functionAppName = '${appName}-${toUpper(environment)}'
-var storageBlobDataContributorRoleId = 'ba92f5b4-2d11-453d-a403-e96b0029c9fe' // Built-in role ID for Storage Blob Data Contributor
+
+// Built-in Azure role definition IDs are stable across all Azure subscriptions
+// See: https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles
+var builtInRoleDefinitionIds = {
+  storageBlobDataContributor: 'ba92f5b4-2d11-453d-a403-e96b0029c9fe'
+}
 
 /*
  * Application Insights
@@ -101,10 +106,10 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2025-06-01' existing 
  * Role Assignment - Grant Function App access to Storage Account
  */
 resource roleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
-  name: guid(storageAccountId, functionApp.id, storageBlobDataContributorRoleId)
+  name: guid(storageAccountId, functionApp.id, builtInRoleDefinitionIds.storageBlobDataContributor)
   scope: storageAccount
   properties: {
-    roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', storageBlobDataContributorRoleId)
+    roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', builtInRoleDefinitionIds.storageBlobDataContributor)
     principalId: functionApp.identity.principalId
     principalType: 'ServicePrincipal'
   }
