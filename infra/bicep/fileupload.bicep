@@ -80,5 +80,6 @@ resource functionApp 'Microsoft.Web/sites@2025-03-01' = {
       ]
     }
     httpsOnly: true
+    ftpsState: 'FtpsOnly'
   }
 }
