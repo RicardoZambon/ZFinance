@@ -182,7 +182,8 @@ namespace ZFinance.WebAPI.Services.Security
 
                 return usersRepository.ListUsers()
                     .TryFilter(parameters, x => x.Email, FilterTypes.Like)
-                    .OrderBy(x => x.Email)
+                    .TryFilter(parameters, x => x.Name, FilterTypes.Like)
+                    .OrderBy(x => x.Name)
                     .GetRange(parameters)
                     .ProjectTo<UsersListModel>(mapper.ConfigurationProvider);
             }

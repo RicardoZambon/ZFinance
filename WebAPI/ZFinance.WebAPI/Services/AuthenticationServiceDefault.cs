@@ -98,7 +98,7 @@ namespace ZFinance.WebAPI.Services
 
             try
             {
-                RefreshTokens? refreshToken = await refreshTokensRepository.FindRefreshTokenByUserAndTokenAsync(refreshTokenModel.Username, refreshTokenModel.RefreshToken);
+                RefreshTokens? refreshToken = await refreshTokensRepository.FindRefreshTokenByUserEmailAndTokenAsync(refreshTokenModel.Username, refreshTokenModel.RefreshToken);
                 if (refreshToken is null)
                 {
                     throw new RefreshTokenNotFoundException();
@@ -149,7 +149,7 @@ namespace ZFinance.WebAPI.Services
         {
             try
             {
-                if (await usersRepository.FindUserByEmailAsync(signInModel.Email ?? string.Empty) is not Users user
+                if (await usersRepository.FindUserByEmailAsync(signInModel.Username ?? string.Empty) is not Users user
                     || !user.IsActive
                     || string.IsNullOrEmpty(signInModel.Password))
                 {

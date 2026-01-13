@@ -6,12 +6,12 @@
     public class AuthenticationResponseModel
     {
         /// <summary>
-        /// Gets or sets the email.
+        /// Gets or sets the name of the user.
         /// </summary>
         /// <value>
-        /// The email.
+        /// The name of the user.
         /// </value>
-        public string? Email { get; set; }
+        public string? Name { get; set; }
 
         /// <summary>
         /// Gets or sets the refresh token.
@@ -36,5 +36,13 @@
         /// The token.
         /// </value>
         public string? Token { get; set; }
+
+        /// <summary>
+        /// Gets or sets the username.
+        /// </summary>
+        /// <value>
+        /// The username.
+        /// </value>
+        public string? Username { get; set; }
     }
 }

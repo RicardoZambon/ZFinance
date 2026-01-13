@@ -6,6 +6,14 @@
     public class RolesUsersListModel
     {
         /// <summary>
+        /// Gets or sets the email of the user.
+        /// </summary>
+        /// <value>
+        /// The email.
+        /// </value>
+        public string? Email { get; set; }
+
+        /// <summary>
         /// Gets or sets the identifier.
         /// </summary>
         /// <value>
@@ -14,10 +22,10 @@
         public long ID { get; set; }
 
         /// <summary>
-        /// Gets or sets the name.
+        /// Gets or sets the name of the user.
         /// </summary>
         /// <value>
-        /// The name.
+        /// The name of the user.
         /// </value>
         public string? Name { get; set; }
     }

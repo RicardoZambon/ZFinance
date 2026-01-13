@@ -34,7 +34,7 @@ namespace ZFinance.Core.Repositories.Security
 
         #region Public methods
         /// <inheritdoc />
-        public async Task<RefreshTokens?> FindRefreshTokenByUserAndTokenAsync(string email, string token)
+        public async Task<RefreshTokens?> FindRefreshTokenByUserEmailAndTokenAsync(string email, string token)
         {
             try
             {

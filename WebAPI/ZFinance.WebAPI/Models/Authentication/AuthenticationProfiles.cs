@@ -15,7 +15,8 @@ namespace ZFinance.WebAPI.Models.Authentication
         public AuthenticationProfiles()
         {
             #region Users
-            CreateMap<Users, AuthenticationResponseModel>();
+            CreateMap<Users, AuthenticationResponseModel>()
+                .ForMember(x => x.Username, x => x.MapFrom(y => y.Email));
             #endregion
         }
     }

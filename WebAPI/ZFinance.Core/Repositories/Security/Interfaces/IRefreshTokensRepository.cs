@@ -8,12 +8,12 @@ namespace ZFinance.Core.Repositories.Security.Interfaces
     public interface IRefreshTokensRepository
     {
         /// <summary>
-        /// Finds the refresh token by user and token asynchronous.
+        /// Finds the refresh token by user email and token asynchronous.
         /// </summary>
-        /// <param name="email">The email.</param>
+        /// <param name="email">The user email.</param>
         /// <param name="token">The token.</param>
         /// <returns>The refresh token, if found; otherwise, <c>null</c>.</returns>
-        Task<RefreshTokens?> FindRefreshTokenByUserAndTokenAsync(string email, string token);
+        Task<RefreshTokens?> FindRefreshTokenByUserEmailAndTokenAsync(string email, string token);
 
         /// <summary>
         /// Adds the refresh token asynchronous.
