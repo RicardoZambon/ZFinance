@@ -9,11 +9,12 @@ using ZDatabase.Exceptions;
 using ZDatabase.Interfaces;
 using ZDatabase.Services.Interfaces;
 using ZFinance.Core.Entities.Security;
+using ZFinance.Core.ExtensionMethods;
 using ZFinance.Core.Repositories.Security.Interfaces;
 using ZFinance.Core.Services.Interfaces;
+using ZFinance.WebAPI.Exceptions;
 using ZFinance.WebAPI.Models.Authentication;
 using ZFinance.WebAPI.Services.Interfaces;
-using ZFinance.WebAPI.Exceptions;
 
 namespace ZFinance.WebAPI.Services
 {
@@ -24,6 +25,7 @@ namespace ZFinance.WebAPI.Services
         private readonly IConfiguration config;
         private readonly ICurrentUserProvider<long> currentUserProvider;
         private readonly IDbContext dbContext;
+        private readonly IExceptionHandler exceptionHandler;
         private readonly IInformationProvider informationProvider;
         private readonly IMapper mapper;
         private readonly IRefreshTokensRepository refreshTokensRepository;
@@ -40,6 +42,7 @@ namespace ZFinance.WebAPI.Services
         /// <param name="config">The <see cref="IConfiguration"/> instance.</param>
         /// <param name="currentUserProvider">The <see cref="ICurrentUserProvider{TUsersKey}"/> instance.</param>
         /// <param name="dbContext">The <see cref="IDbContext"/> instance.</param>
+        /// <param name="exceptionHandler">The <see cref="IExceptionHandler"/> instance.</param>
         /// <param name="informationProvider">The <see cref="IInformationProvider"/> instance.</param>
         /// <param name="mapper">The <see cref="IMapper"/> instance.</param>
         /// <param name="refreshTokensRepository">The <see cref="IRefreshTokensRepository"/> instance.</param>
@@ -48,6 +51,7 @@ namespace ZFinance.WebAPI.Services
             IConfiguration config,
             ICurrentUserProvider<long> currentUserProvider,
             IDbContext dbContext,
+            IExceptionHandler exceptionHandler,
             IInformationProvider informationProvider,
             IMapper mapper,
             IRefreshTokensRepository refreshTokensRepository,
@@ -56,6 +60,7 @@ namespace ZFinance.WebAPI.Services
             this.config = config;
             this.currentUserProvider = currentUserProvider;
             this.dbContext = dbContext;
+            this.exceptionHandler = exceptionHandler;
             this.informationProvider = informationProvider;
             this.mapper = mapper;
             this.refreshTokensRepository = refreshTokensRepository;
@@ -72,7 +77,15 @@ namespace ZFinance.WebAPI.Services
                 throw new EntityNotFoundException<Users>(0);
             }
 
-            return (await informationProvider.ListAllActionsAsync(currentUserID)).Select(x => x.Code);
+            try
+            {
+                return (await informationProvider.ListAllActionsAsync(currentUserID)).Select(x => x.Code);
+            }
+            catch
+            {
+                exceptionHandler.AddBreadcrumb("Error in service when getting user actions.");
+                throw;
+            }
         }
 
         /// <inheritdoc />
@@ -83,37 +96,50 @@ namespace ZFinance.WebAPI.Services
                 throw new RefreshTokenNotFoundException();
             }
 
-            RefreshTokens? refreshToken = await refreshTokensRepository.FindRefreshTokenByUserAndTokenAsync(refreshTokenModel.Username, refreshTokenModel.RefreshToken);
-            if (refreshToken is null)
-            {
-                throw new RefreshTokenNotFoundException();
-            }
-            else if (!refreshToken.IsActive || refreshToken.User == null)
-            {
-                throw new InvalidRefreshTokenException();
-            }
-
-            using IDbContextTransaction transaction = dbContext.Database.BeginTransaction();
             try
             {
-                refreshTokensRepository.RevokeRefreshToken(refreshToken);
+                RefreshTokens? refreshToken = await refreshTokensRepository.FindRefreshTokenByUserAndTokenAsync(refreshTokenModel.Username, refreshTokenModel.RefreshToken);
+                if (refreshToken is null)
+                {
+                    throw new RefreshTokenNotFoundException();
+                }
+                else if (!refreshToken.IsActive || refreshToken.User == null)
+                {
+                    throw new InvalidRefreshTokenException();
+                }
 
-                refreshToken = CreateRefreshToken(refreshToken.User);
-                await refreshTokensRepository.InsertRefreshTokenAsync(refreshToken);
+                using IDbContextTransaction transaction = dbContext.Database.BeginTransaction();
+                try
+                {
+                    refreshTokensRepository.RevokeRefreshToken(refreshToken);
 
-                await dbContext.SaveChangesAsync();
-                await transaction.CommitAsync();
+                    refreshToken = CreateRefreshToken(refreshToken.User);
+                    await refreshTokensRepository.InsertRefreshTokenAsync(refreshToken);
 
-                AuthenticationResponseModel authenticationModel = mapper.Map<AuthenticationResponseModel>(refreshToken.User);
-                authenticationModel.Token = CreateJwtToken(refreshToken.User!);
-                authenticationModel.RefreshToken = refreshToken.Token;
-                authenticationModel.RefreshTokenExpiration = refreshToken.Expiration;
+                    await dbContext.SaveChangesAsync();
+                    await transaction.CommitAsync();
 
-                return authenticationModel;
+                    AuthenticationResponseModel authenticationModel = mapper.Map<AuthenticationResponseModel>(refreshToken.User);
+                    authenticationModel.Token = CreateJwtToken(refreshToken.User!);
+                    authenticationModel.RefreshToken = refreshToken.Token;
+                    authenticationModel.RefreshTokenExpiration = refreshToken.Expiration;
+
+                    return authenticationModel;
+                }
+                catch
+                {
+                    await transaction.RollbackAsync();
+                    throw;
+                }
             }
             catch
             {
-                await transaction.RollbackAsync();
+                exceptionHandler.AddBreadcrumb("Error in service when refreshing the token model.",
+                    new Dictionary<string, object?>()
+                    {
+                        { nameof(refreshTokenModel), refreshTokenModel },
+                    }
+                );
                 throw;
             }
         }
@@ -121,13 +147,20 @@ namespace ZFinance.WebAPI.Services
         /// <inheritdoc />
         public async Task<AuthenticationResponseModel> SignInAsync(AuthenticationSignInModel signInModel)
         {
-            if (await usersRepository.FindUserByEmailAsync(signInModel.Email ?? string.Empty) is Users user
-                && !string.IsNullOrEmpty(signInModel.Password))
+            try
             {
-                //if (!CheckLdapAuthentication(signInModel))
-                //{
-                //    throw new InvalidAuthenticationException();
-                //}
+                if (await usersRepository.FindUserByEmailAsync(signInModel.Email ?? string.Empty) is not Users user
+                    || !user.IsActive
+                    || string.IsNullOrEmpty(signInModel.Password))
+                {
+                    throw new InvalidAuthenticationException();
+                }
+
+                // TODO: Add safe check to prevent timing attacks.
+                if (user.VerifyHashedPassword(signInModel.Password) == false)
+                {
+                    throw new InvalidAuthenticationException();
+                }
 
                 RefreshTokens refreshToken = CreateRefreshToken(user);
                 await refreshTokensRepository.InsertRefreshTokenAsync(refreshToken);
@@ -140,7 +173,16 @@ namespace ZFinance.WebAPI.Services
 
                 return authenticationModel;
             }
-            throw new InvalidAuthenticationException();
+            catch
+            {
+                exceptionHandler.AddBreadcrumb("Error in service when signing in the user.",
+                    new Dictionary<string, object?>()
+                    {
+                        { nameof(signInModel), signInModel },
+                    }
+                );
+                throw;
+            }
         }
         #endregion
 

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using ZDatabase.Attributes;
 
@@ -28,6 +29,15 @@ namespace ZFinance.Core.Entities.Security
         ///   <c>true</c> if is active; otherwise, <c>false</c>.
         /// </value>
         public bool IsActive { get; set; }
+
+        /// <summary>
+        /// Gets or sets the name of the user.
+        /// </summary>
+        /// <value>
+        /// The name of the user.
+        /// </value>
+        [StringLength(200)]
+        public string? Name { get; set; }
 
         /// <summary>
         /// Gets or sets the password hash.

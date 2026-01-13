@@ -2,9 +2,10 @@
 using Microsoft.AspNetCore.Mvc;
 using ZDatabase.Exceptions;
 using ZFinance.Core.Entities.Security;
+using ZFinance.Core.Services.Interfaces;
+using ZFinance.WebAPI.Exceptions;
 using ZFinance.WebAPI.Models.Authentication;
 using ZFinance.WebAPI.Services.Interfaces;
-using ZFinance.WebAPI.Exceptions;
 
 namespace ZFinance.WebAPI.Controllers
 {
@@ -17,6 +18,8 @@ namespace ZFinance.WebAPI.Controllers
     {
         #region Variables
         private readonly IAuthenticationService authenticationService;
+        private readonly IExceptionHandler exceptionHandler;
+        private readonly IHostEnvironment hostEnvironment;
         #endregion
 
         #region Properties
@@ -27,9 +30,16 @@ namespace ZFinance.WebAPI.Controllers
         /// Initializes a new instance of the <see cref="AuthenticationController"/> class.
         /// </summary>
         /// <param name="authenticationService">The <see cref="IAuthenticationService"/> instance.</param>
-        public AuthenticationController(IAuthenticationService authenticationService)
+        /// <param name="exceptionHandler">The <see cref="IExceptionHandler"/> instance.</param>
+        /// <param name="hostEnvironment">The <see cref="IHostEnvironment"/> instance.</param>
+        public AuthenticationController(
+            IAuthenticationService authenticationService,
+            IExceptionHandler exceptionHandler,
+            IHostEnvironment hostEnvironment)
         {
             this.authenticationService = authenticationService;
+            this.exceptionHandler = exceptionHandler;
+            this.hostEnvironment = hostEnvironment;
         }
         #endregion
 
@@ -51,12 +61,21 @@ namespace ZFinance.WebAPI.Controllers
             catch (EntityNotFoundException<Users>) { return NotFound(); }
             catch (Exception ex)
             {
-                return StatusCode(500, new
+                exceptionHandler.AddBreadcrumb();
+
+                Guid? exceptionID = exceptionHandler.CaptureException(ex);
+                if (hostEnvironment.IsDevelopment())
                 {
-                    InnerExceptionMessage = ex.InnerException?.Message,
-                    ex.Message,
-                    ex.StackTrace,
-                });
+                    return StatusCode(500, new
+                    {
+                        exceptionID,
+                        InnerExceptionMessage = ex.InnerException?.Message,
+                        ex.Message,
+                        ex.StackTrace,
+                    });
+                }
+
+                return StatusCode(500, exceptionID);
             }
         }
 
@@ -79,12 +98,21 @@ namespace ZFinance.WebAPI.Controllers
             catch (RefreshTokenNotFoundException) { return Unauthorized(); }
             catch (Exception ex)
             {
-                return StatusCode(500, new
+                exceptionHandler.AddBreadcrumb();
+
+                Guid? exceptionID = exceptionHandler.CaptureException(ex);
+                if (hostEnvironment.IsDevelopment())
                 {
-                    InnerExceptionMessage = ex.InnerException?.Message,
-                    ex.Message,
-                    ex.StackTrace,
-                });
+                    return StatusCode(500, new
+                    {
+                        exceptionID,
+                        InnerExceptionMessage = ex.InnerException?.Message,
+                        ex.Message,
+                        ex.StackTrace,
+                    });
+                }
+
+                return StatusCode(500, exceptionID);
             }
         }
 
@@ -116,12 +144,21 @@ namespace ZFinance.WebAPI.Controllers
             catch (InvalidAuthenticationException) { return Unauthorized(); }
             catch (Exception ex)
             {
-                return StatusCode(500, new
+                exceptionHandler.AddBreadcrumb();
+
+                Guid? exceptionID = exceptionHandler.CaptureException(ex);
+                if (hostEnvironment.IsDevelopment())
                 {
-                    InnerExceptionMessage = ex.InnerException?.Message,
-                    ex.Message,
-                    ex.StackTrace,
-                });
+                    return StatusCode(500, new
+                    {
+                        exceptionID,
+                        InnerExceptionMessage = ex.InnerException?.Message,
+                        ex.Message,
+                        ex.StackTrace,
+                    });
+                }
+
+                return StatusCode(500, exceptionID);
             }
         }
         #endregion

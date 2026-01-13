@@ -2,6 +2,7 @@
 using System.Diagnostics.CodeAnalysis;
 using ZDatabase.Interfaces;
 using ZFinance.Core.Entities.Security;
+using ZFinance.Core.ExtensionMethods;
 
 namespace ZFinance.Core.Initializers
 {
@@ -12,7 +13,7 @@ namespace ZFinance.Core.Initializers
     [ExcludeFromCodeCoverage]
     public class V100Initializer : BaseInitializer
     {
-        #region Variables
+        #region Constants
         private const string ADMINISTRATORS_ACTION_CODE = "AdministrativeMaster";
         #endregion
 
@@ -34,11 +35,16 @@ namespace ZFinance.Core.Initializers
         /// <inheritdoc />
         public override void Initialize()
         {
+            InsertServiceUser();
+
             // Security
             InsertActions();
             InsertParentMenus();
             InsertChildMenus();
             InsertRoles();
+            InsertUsers();
+
+            SetAdministrators();
         }
         #endregion
 
@@ -137,6 +143,56 @@ namespace ZFinance.Core.Initializers
             if (roles.Any())
             {
                 SaveContext(roles, nameof(InsertRoles), x => x.Name);
+            }
+        }
+
+        private void InsertServiceUser()
+        {
+            IList<Users> users = [
+                new() {
+                    Name = "ZFinance Internal",
+                    Email = "zfinance@zambon.com",
+                    IsActive = false,
+                },
+            ];
+
+            SaveContext(users, nameof(InsertServiceUser), x => x.Name);
+        }
+
+        private void InsertUsers()
+        {
+            IList<Users> users = [
+                new() { Name = "Ricardo Zambon", Email = "ricardo.zambon@zambon.com", IsActive = true },
+            ];
+
+            users[0].HashStringAndUpdatePassword("password");
+
+            if (users.Any())
+            {
+                SaveContext(users, nameof(InsertUsers), x => x.Email);
+            }
+        }
+
+        private void SetAdministrators()
+        {
+            IList<Users> users = [];
+
+            IEnumerable<string> administrators = [
+                "ricardo.zambon@zambon.com",
+            ];
+
+            foreach (string email in administrators)
+            {
+                if (dbContext.Set<Users>().FirstOrDefault(x => x.Email == email) is Users user)
+                {
+                    user.Roles = [.. dbContext.Set<Roles>().Where(x => x.Name == "Administrators")];
+                    users.Add(user);
+                }
+            }
+
+            if (users.Any())
+            {
+                SaveContext(users, nameof(SetAdministrators), EntityState.Modified);
             }
         }
         #endregion

@@ -32,12 +32,21 @@ namespace ZFinance.WebAPI.Controllers.Security
             catch (MissingUserPermissionException) { return Forbid(); }
             catch (Exception ex)
             {
-                return StatusCode(500, new
+                exceptionHandler.AddBreadcrumb();
+
+                Guid? exceptionID = exceptionHandler.CaptureException(ex);
+                if (hostEnvironment.IsDevelopment())
                 {
-                    InnerExceptionMessage = ex.InnerException?.Message,
-                    ex.Message,
-                    ex.StackTrace,
-                });
+                    return StatusCode(500, new
+                    {
+                        exceptionID,
+                        InnerExceptionMessage = ex.InnerException?.Message,
+                        ex.Message,
+                        ex.StackTrace,
+                    });
+                }
+
+                return StatusCode(500, exceptionID);
             }
         }
 
@@ -59,12 +68,26 @@ namespace ZFinance.WebAPI.Controllers.Security
             catch (MissingUserPermissionException) { return Forbid(); }
             catch (Exception ex)
             {
-                return StatusCode(500, new
+                exceptionHandler.AddBreadcrumb(
+                    new Dictionary<string, object?>()
+                    {
+                        { nameof(parentMenuID), parentMenuID },
+                    }
+                );
+
+                Guid? exceptionID = exceptionHandler.CaptureException(ex);
+                if (hostEnvironment.IsDevelopment())
                 {
-                    InnerExceptionMessage = ex.InnerException?.Message,
-                    ex.Message,
-                    ex.StackTrace,
-                });
+                    return StatusCode(500, new
+                    {
+                        exceptionID,
+                        InnerExceptionMessage = ex.InnerException?.Message,
+                        ex.Message,
+                        ex.StackTrace,
+                    });
+                }
+
+                return StatusCode(500, exceptionID);
             }
         }
 
@@ -86,7 +109,12 @@ namespace ZFinance.WebAPI.Controllers.Security
             catch (MissingUserPermissionException) { return Forbid(); }
             catch (Exception ex)
             {
-                exceptionHandler.AddBreadcrumb();
+                exceptionHandler.AddBreadcrumb(
+                    new Dictionary<string, object?>()
+                    {
+                        { nameof(url), url },
+                    }
+                );
 
                 Guid? exceptionID = exceptionHandler.CaptureException(ex);
                 if (hostEnvironment.IsDevelopment())
