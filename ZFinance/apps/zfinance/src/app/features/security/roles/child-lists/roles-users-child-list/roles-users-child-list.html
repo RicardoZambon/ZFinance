@@ -1,0 +1,20 @@
+<lib-data-grid
+[showButtons]="true"
+[lazyLoadRows]="true">
+    <ng-container buttons>
+
+        <framework-button-edit
+        iconSize="small"
+        [allowedActions]="[ 'IRolesService.UpdateRelationshipRoleUsersAsync' ]"
+        [modal]="multiSelector">
+        </framework-button-edit>
+
+        <framework-button-refresh
+        iconSize='small'
+        [disabled]="loading">
+        </framework-button-refresh>
+
+    </ng-container>
+</lib-data-grid>
+
+<app-users-multi-select-modal #multiSelector></app-users-multi-select-modal>

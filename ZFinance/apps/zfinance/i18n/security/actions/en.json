@@ -1,0 +1,34 @@
+{
+  "//": "Buttons",
+  "Actions-Filters-Title": "Filter actions",
+
+
+  "//": "Columns",
+  "Actions-Column-ApplicationName": "Application",
+  "Actions-Column-Code": "Code",
+  "Actions-Column-Description": "Description",
+  "Actions-Column-Entity": "Entity",
+  "Actions-Column-Name": "Name",
+
+
+  "//": "Detail view",
+  "Actions-Details-Title-New": "New action",
+  "Actions-Field-Application": "Application",
+  "Actions-Field-Code": "Code",
+  "Actions-Field-Description": "Description",
+  "Actions-Field-Entity": "Entity",
+  "Actions-Field-Name": "Name",
+  "Actions-FormGroup-Action": "Action",
+  "Actions-MultiSelect-Title": "Add / Remove actions",
+
+
+  "//": "Validations",
+  "Actions-Validations-Code-Exists": "The code already exists.",
+  "Actions-Validations-Code-Required": "The code is required.",
+  "Actions-Validations-Description-Required": "The description is required.",
+  "Actions-Validations-Entity-Required": "The entity is required.",
+  "Actions-Validations-Name-Exists": "The name already exists.",
+  "Actions-Validations-Name-Required": "The name is required.",
+
+  "": ""
+}

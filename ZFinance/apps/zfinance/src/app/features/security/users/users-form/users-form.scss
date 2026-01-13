@@ -1,0 +1,5 @@
+lib-group-accordion[roles] {
+    ::ng-deep .content > div {
+        @apply lg:grid-cols-1 xl:grid-cols-1;
+    }
+}

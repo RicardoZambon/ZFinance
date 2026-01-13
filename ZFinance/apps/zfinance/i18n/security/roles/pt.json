@@ -1,0 +1,27 @@
+{
+  "//": "Buttons",
+  "Roles-Filters-Title": "Filtrar permissões",
+
+
+  "//": "Columns",
+  "Roles-Column-ApplicationName": "Aplicação",
+  "Roles-Column-Name": "Nome",
+
+
+  "//": "Detail view",
+  "Roles-Details-Title-New": "Nova permissão",
+  "Roles-EditSection-Actions": "Ações",
+  "Roles-EditSection-Menus": "Menus",
+  "Roles-EditSection-Users": "Usuários",
+  "Roles-Field-Application": "Aplicação",
+  "Roles-Field-Name": "Nome",
+  "Roles-FormGroup-Role": "Permissão",
+  "Roles-MultiSelect-Title": "Adicionar / Remover permissões",
+
+
+  "//": "Validations",
+  "Roles-Validations-Name-Exists": "O nome já existe.",
+  "Roles-Validations-Name-Required": "O nome é obrigatório.",
+
+  "": ""
+}

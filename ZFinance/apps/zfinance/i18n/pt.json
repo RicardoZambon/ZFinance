@@ -1,0 +1,23 @@
+{
+  "//": "Buttons",
+  "Button-Modal-Failed-Administrador": "Se o problema persistir, por favor, entre em contato com o administrador.",
+  "Button-Modal-Failed-MensagemPadrao": "Ocorreu um erro no servidor. Por favor, tente novamente mais tarde.",
+
+
+  "//": "Geral",
+  "Option-YES": "SIM",
+
+
+  "//": "Login",
+  "Login-Copyright": "Copyright &copy; 2026, Zambon LTDA. Todos os direitos reservados.",
+  "Login-Title": "ZFinance",
+
+
+  "//": "Main",
+  "Main-Logout": "Sair",
+  "Main-Logout-Modal-Message": "Você tem certeza que deseja sair?",
+  "Main-Logout-Modal-Message-Cancel": "Cancelar",
+  "Main-Logout-Modal-Message-Confirm": "Sair",
+
+  "": ""
+}

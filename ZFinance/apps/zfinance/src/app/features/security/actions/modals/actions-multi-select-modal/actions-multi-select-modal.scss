@@ -1,0 +1,7 @@
+lib-multi-select {
+    ::ng-deep {
+        .body-content {
+            @apply grid-cols-[minmax(0,1fr)_minmax(0,0.8fr)];
+        }
+    }
+}

@@ -1,0 +1,28 @@
+<ng-template #ribbon>
+    <lib-ribbon-group [label]="'RibbonGroup-Entity' | translate">
+
+        <framework-button-new [allowedActions]="[ 'IActionsService.InsertNewActionAsync' ]">
+        </framework-button-new>
+
+        <framework-button-open-record [allowedActions]="[ 'IActionsService.FindActionByIDAsync' ]">
+        </framework-button-open-record>
+
+        <framework-button-delete
+        [action]="onDelete()"
+        [allowedActions]="[ 'IActionsService.DeleteActionAsync' ]"
+        [disabled]="!hasRowsSelected">
+        </framework-button-delete>
+
+    </lib-ribbon-group>
+    
+    <lib-ribbon-group [label]="'RibbonGroup-General' | translate">
+
+        <app-actions-filter></app-actions-filter>
+
+        <framework-button-refresh [disabled]="loading">
+        </framework-button-refresh>
+
+    </lib-ribbon-group>
+</ng-template>
+
+<lib-data-grid></lib-data-grid>

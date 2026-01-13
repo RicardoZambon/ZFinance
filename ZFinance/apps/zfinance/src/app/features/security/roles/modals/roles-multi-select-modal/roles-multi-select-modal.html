@@ -1,0 +1,9 @@
+<lib-multi-select
+    [title]="'Roles-MultiSelect-Title' | translate"
+    [size]="'4xl'"
+    [itemTemplate]="template"
+></lib-multi-select>
+
+<ng-template #template let-rowData="rowData">
+    {{ rowData.name }}
+</ng-template>

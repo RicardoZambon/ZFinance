@@ -1,0 +1,5 @@
+lib-group-accordion[details] {
+    ::ng-deep .content > div {
+        @apply xl:grid-cols-2;
+    }
+}

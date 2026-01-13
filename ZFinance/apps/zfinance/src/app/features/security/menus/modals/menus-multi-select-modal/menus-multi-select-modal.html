@@ -1,0 +1,9 @@
+<lib-multi-select
+    [title]="'Menus-MultiSelect-Title' | translate"
+    [size]="'5xl'"
+    [itemTemplate]="template"
+></lib-multi-select>
+
+<ng-template #template let-rowData="rowData">
+    {{ rowData.label }}
+</ng-template>

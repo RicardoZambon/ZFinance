@@ -1,0 +1,33 @@
+{
+  "//": "Buttons",
+  "Menus-Filters-Title": "Filter menus",
+
+
+  "//": "Columns",
+  "Menus-Column-ApplicationName": "Application",
+  "Menus-Column-Icon": "Icon",
+  "Menus-Column-Label": "Label",
+  "Menus-Column-Order": "Order",
+  "Menus-Column-URL": "URL",
+
+
+  "//": "Detail view",
+  "Menus-Details-Title-New": "New menu",
+  "Menus-Field-Application": "Application",
+  "Menus-Field-Icon": "Icon",
+  "Menus-Field-Label": "Label",
+  "Menus-Field-Order": "Order",
+  "Menus-Field-ParentMenu": "Parent menu",
+  "Menus-Field-URL": "URL",
+  "Menus-FormGroup-Menu": "Menu",
+  "Menus-MultiSelect-Title": "Add / Remove menus",
+
+
+  "//": "Validations",
+  "Menus-Validations-Label-Exists": "The label already exists.",
+  "Menus-Validations-Label-Required": "The label is required.",
+  "Menus-Validations-Order-Required": "The order must be greater or equal than 0.",
+  "Menus-Validations-ParentMenu-Required": "The parent menu is required.",
+
+  "": ""
+}

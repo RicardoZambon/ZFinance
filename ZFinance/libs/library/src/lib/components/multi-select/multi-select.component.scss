@@ -1,0 +1,20 @@
+/* @use 'tailwindcss'; */
+
+.body-content {
+    @apply grid grid-flow-col auto-cols-fr gap-4 overflow-y-auto;
+    @apply grid-rows-[min-content_minmax(0,1fr)];
+    @apply grid-flow-row #{!important};
+}
+
+.search-grid {
+    @apply grid grid-rows-subgrid;
+}
+
+.search-grid, lib-multi-select-result-grid {
+    @apply row-span-full;
+}
+
+lib-multi-select-result-grid {
+    @apply min-h-[24rem];
+}
+

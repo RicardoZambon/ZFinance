@@ -1,0 +1,27 @@
+{
+  "//": "Buttons",
+  "Roles-Filters-Title": "Filter roles",
+
+
+  "//": "Columns",
+  "Roles-Column-ApplicationName": "Application",
+  "Roles-Column-Name": "Name",
+
+
+  "//": "Detail view",
+  "Roles-Details-Title-New": "New role",
+  "Roles-EditSection-Actions": "Actions",
+  "Roles-EditSection-Menus": "Menus",
+  "Roles-EditSection-Users": "Users",
+  "Roles-Field-Application": "Application",
+  "Roles-Field-Name": "Name",
+  "Roles-FormGroup-Role": "Role",
+  "Roles-MultiSelect-Title": "Add / Remove roles",
+
+
+  "//": "Validations",
+  "Roles-Validations-Name-Exists": "The name already exists.",
+  "Roles-Validations-Name-Required": "The name is required.",
+
+  "": ""
+}

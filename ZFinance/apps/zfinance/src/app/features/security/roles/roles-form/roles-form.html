@@ -1,0 +1,49 @@
+<ng-template #ribbon>
+    <lib-ribbon-group [label]="'RibbonGroup-Entity' | translate">
+        <framework-button-new [allowedActions]="[ 'IRolesService.InsertNewRoleAsync' ]">
+        </framework-button-new>
+
+        <framework-button-edit [allowedActions]="[ 'IRolesService.UpdateRoleAsync' ]">
+        </framework-button-edit>
+
+        <framework-button-save [allowedActions]="[ 'IRolesService.InsertNewRoleAsync', 'IRolesService.UpdateRoleAsync' ]">
+        </framework-button-save>
+    </lib-ribbon-group>
+</ng-template>
+
+<lib-group-scroll-spy>
+    <form ngNoForm [formGroup]="dataForm">
+            
+        <lib-group-accordion details [label]="'EditSection-Details' | translate">
+
+            <lib-form-group label="Roles-FormGroup-Role">
+                <lib-form-input-group
+                controlName="name"
+                label="Roles-Field-Name"
+                [maxLength]="200"
+                [validations]="{
+                    'exists': 'Roles-Validations-Name-Exists',
+                    'required': 'Roles-Validations-Name-Required'
+                }">
+                </lib-form-input-group>
+            </lib-form-group>
+            
+        </lib-group-accordion>
+
+        <lib-group-accordion actions *ngIf="hasEntityID" [label]="'Roles-EditSection-Actions' | translate">
+            <app-roles-actions-child-list>
+            </app-roles-actions-child-list>
+        </lib-group-accordion>
+
+        <lib-group-accordion menus *ngIf="hasEntityID" [label]="'Roles-EditSection-Menus' | translate">
+            <app-roles-menus-child-list>
+            </app-roles-menus-child-list>
+        </lib-group-accordion>
+
+        <lib-group-accordion users *ngIf="hasEntityID" [label]="'Roles-EditSection-Users' | translate">
+            <app-roles-users-child-list>
+            </app-roles-users-child-list>
+        </lib-group-accordion>
+
+    </form>
+</lib-group-scroll-spy>

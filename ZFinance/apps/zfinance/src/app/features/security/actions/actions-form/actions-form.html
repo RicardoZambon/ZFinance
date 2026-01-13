@@ -1,0 +1,59 @@
+<ng-template #ribbon>
+    <lib-ribbon-group [label]="'RibbonGroup-Entity' | translate">
+        <framework-button-new [allowedActions]="[ 'IActionsService.InsertNewActionAsync' ]">
+        </framework-button-new>
+
+        <framework-button-edit [allowedActions]="[ 'IActionsService.UpdateActionAsync' ]">
+        </framework-button-edit>
+
+        <framework-button-save [allowedActions]="[ 'IActionsService.UpdateActionAsync', 'IActionsService.InsertNewActionAsync' ]">
+        </framework-button-save>
+    </lib-ribbon-group>
+</ng-template>
+
+<lib-group-scroll-spy>
+    <form ngNoForm [formGroup]="dataForm">
+            
+        <lib-group-accordion details [label]="'EditSection-Details' | translate">
+
+            <lib-form-group label="Actions-FormGroup-Action">
+                <lib-form-input-group
+                controlName="entity"
+                label="Actions-Field-Entity"
+                [autofocus]="true"
+                [validations]="{
+                    'required': 'Actions-Validations-Entity-Required'
+                }">
+                </lib-form-input-group>
+
+                <lib-form-input-group
+                controlName="name"
+                label="Actions-Field-Name"
+                [validations]="{
+                    'exists': 'Actions-Validations-Name-Exists',
+                    'required': 'Actions-Validations-Name-Required'
+                }">
+                </lib-form-input-group>
+
+                <lib-form-input-group
+                controlName="description"
+                label="Actions-Field-Description"
+                [validations]="{
+                    'required': 'Actions-Validations-Description-Required'
+                }">
+                </lib-form-input-group>
+
+                <lib-form-input-group
+                controlName="code"
+                label="Actions-Field-Code"
+                [validations]="{
+                    'exists': 'Actions-Validations-Code-Exists',
+                    'required': 'Actions-Validations-Code-Required'
+                }">
+                </lib-form-input-group>
+            </lib-form-group>
+            
+        </lib-group-accordion>
+
+    </form>
+</lib-group-scroll-spy>

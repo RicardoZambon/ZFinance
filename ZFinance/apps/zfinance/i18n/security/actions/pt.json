@@ -1,0 +1,34 @@
+{
+  "//": "Buttons",
+  "Actions-Filters-Title": "Filtrar ações",
+
+
+  "//": "Columns",
+  "Actions-Column-ApplicationName": "Aplicação",
+  "Actions-Column-Code": "Código",
+  "Actions-Column-Description": "Descrição",
+  "Actions-Column-Entity": "Entidade",
+  "Actions-Column-Name": "Nome",
+
+
+  "//": "Detail view",
+  "Actions-Details-Title-New": "Nova ação",
+  "Actions-Field-Application": "Aplicação",
+  "Actions-Field-Code": "Código",
+  "Actions-Field-Description": "Descrição",
+  "Actions-Field-Entity": "Entidade",
+  "Actions-Field-Name": "Nome",
+  "Actions-FormGroup-Action": "Ação",
+  "Actions-MultiSelect-Title": "Adicionar / Remover ações",
+
+
+  "//": "Validations",
+  "Actions-Validations-Code-Exists": "O código já existe.",
+  "Actions-Validations-Code-Required": "O código é obrigatório.",
+  "Actions-Validations-Description-Required": "A descrição é obrigatória.",
+  "Actions-Validations-Entity-Required": "A entidade é obrigatória.",
+  "Actions-Validations-Name-Exists": "O nome já existe.",
+  "Actions-Validations-Name-Required": "O nome é obrigatório.",
+
+  "": ""
+}

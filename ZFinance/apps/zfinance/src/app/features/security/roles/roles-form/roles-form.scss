@@ -1,0 +1,11 @@
+lib-group-accordion[details] {
+    ::ng-deep .content > div {
+        @apply xl:grid-cols-2;
+    }
+}
+
+lib-group-accordion[actions], lib-group-accordion[menus], lib-group-accordion[users] {
+    ::ng-deep .content > div {
+        @apply lg:grid-cols-1 xl:grid-cols-1;
+    }
+}

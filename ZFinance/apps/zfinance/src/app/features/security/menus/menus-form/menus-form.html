@@ -1,0 +1,67 @@
+<ng-template #ribbon>
+    <lib-ribbon-group [label]="'RibbonGroup-Entity' | translate">
+        <framework-button-new [allowedActions]="[ 'IMenusService.InsertNewMenuAsync' ]">
+        </framework-button-new>
+
+        <framework-button-edit [allowedActions]="[ 'IMenusService.UpdateMenuAsync' ]">
+        </framework-button-edit>
+
+        <framework-button-save [allowedActions]="[ 'IMenusService.UpdateMenuAsync', 'IMenusService.InsertNewMenuAsync' ]">
+        </framework-button-save>
+    </lib-ribbon-group>
+</ng-template>
+
+<lib-group-scroll-spy>
+    <form ngNoForm [formGroup]="dataForm">
+            
+        <lib-group-accordion details [label]="'EditSection-Details' | translate">
+
+            <lib-form-group label="Menus-FormGroup-Menu">
+                <lib-catalog-select
+                controlName="parentMenuID"
+                displayControlName="parentMenuIDLabel"
+                label="Menus-Field-ParentMenu"
+                [searchEndpoint]="menusCatalogEndpoint">
+                </lib-catalog-select>
+                
+                <lib-form-input-group
+                controlName="label"
+                label="Menus-Field-Label"
+                [autofocus]="true"
+                [validations]="{
+                    required: 'Menus-Validations-Label-Required'
+                }">
+                </lib-form-input-group>
+
+                <lib-form-input-group
+                controlName="icon"
+                label="Menus-Field-Icon"
+                [template]="iconTemplate">
+                </lib-form-input-group>
+
+                <ng-template #iconTemplate>
+                    <div class="icon">
+                        <i class="fa fa-fw" [ngClass]="iconControlValue"></i>
+                        <lib-form-input controlName="icon"></lib-form-input>
+                    </div>
+                </ng-template>
+
+                <lib-form-input-group
+                label="Menus-Field-URL"
+                controlName="url">
+                </lib-form-input-group>
+
+                <lib-form-input-group
+                controlName="order"
+                label="Menus-Field-Order"
+                [type]="'number'"
+                [validations]="{
+                    min: 'Menus-Validations-Order-Min'
+                }">
+                </lib-form-input-group>
+            </lib-form-group>
+
+        </lib-group-accordion>
+
+    </form>
+</lib-group-scroll-spy>

@@ -1,0 +1,26 @@
+<framework-button-filters
+modalSize="xl"
+modalTitle="Menus-Filters-Title"
+[formGroup]="filterForm">
+    
+    <lib-form-group label="Menus-FormGroup-Menu">
+        <lib-catalog-select
+        controlName="parentMenuID"
+        displayControlName="parentMenuLabel"
+        label="Menus-Field-ParentMenu"
+        [autofocus]="true"
+        [searchEndpoint]="menusCatalogEndpoint">
+        </lib-catalog-select>
+
+        <lib-form-input-group
+        controlName="label"
+        label="Menus-Field-Label">
+        </lib-form-input-group>
+
+        <lib-form-input-group
+        controlName="url"
+        label="Menus-Field-URL">
+        </lib-form-input-group>
+    </lib-form-group>
+    
+</framework-button-filters>

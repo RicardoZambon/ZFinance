@@ -1,0 +1,48 @@
+<ng-template #ribbon>
+    <lib-ribbon-group [label]="'RibbonGroup-Entity' | translate">
+        <framework-button-new [allowedActions]="[ 'IUsersService.InsertNewUserAsync' ]">
+        </framework-button-new>
+
+        <framework-button-edit [allowedActions]="[ 'IUsersService.UpdateUserAsync' ]">
+        </framework-button-edit>
+
+        <framework-button-save [allowedActions]="[ 'IUsersService.UpdateUserAsync', 'IMoedasService.InsertNewUserAsync' ]">
+        </framework-button-save>
+    </lib-ribbon-group>
+</ng-template>
+
+<lib-group-scroll-spy>
+    <form ngNoForm
+    [formGroup]="dataForm">
+        
+        <lib-group-accordion [label]="'EditSection-Details' | translate">
+
+            <lib-form-group [label]="'Users-FormGroup-Name'">
+                <lib-form-input-group
+                controlName="name"
+                label="Users-Field-Name"
+                [autofocus]="true"
+                [validations]="{
+                    required: 'Users-Validations-Name-Required'
+                }">
+                </lib-form-input-group>
+
+                <lib-form-input-group
+                controlName="email"
+                label="Users-Field-Email"
+                [validations]="{
+                    exists: 'Users-Validations-Email-Exists',
+                    required: 'Users-Validations-Email-Required'
+                }">
+                </lib-form-input-group>
+            </lib-form-group>
+
+        </lib-group-accordion>
+
+        <lib-group-accordion roles *ngIf="hasEntityID" [label]="'Users-EditSection-Roles' | translate">
+            <app-users-roles-child-list>
+            </app-users-roles-child-list>
+        </lib-group-accordion>
+
+    </form>
+</lib-group-scroll-spy>

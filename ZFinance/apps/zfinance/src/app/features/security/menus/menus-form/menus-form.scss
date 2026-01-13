@@ -1,0 +1,17 @@
+lib-group-accordion[details] {
+    ::ng-deep .content > div {
+        @apply xl:grid-cols-2;
+    }
+}
+
+.icon {
+    @apply flex items-center;
+
+    i {
+        @apply mr-2;
+    }
+
+    lib-form-input {
+        @apply grow;
+    }
+}

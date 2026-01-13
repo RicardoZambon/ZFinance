@@ -1,0 +1,9 @@
+<lib-multi-select
+    [title]="'Users-MultiSelect-Title' | translate"
+    [size]="'6xl'"
+    [itemTemplate]="template"
+></lib-multi-select>
+
+<ng-template #template let-rowData="rowData">
+    {{ rowData.email }}
+</ng-template>

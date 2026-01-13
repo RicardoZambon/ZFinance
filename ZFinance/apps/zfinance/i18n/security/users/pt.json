@@ -1,0 +1,26 @@
+{
+  "//": "Buttons",
+  "Users-Filters-Title": "Filtrar usuários",
+
+
+  "//": "Columns",
+  "Users-Column-Email": "E-mail",
+  "Users-Column-Name": "Nome",
+
+
+  "//": "Detail view",
+  "Users-Details-Title-New": "Novo usuário",
+  "Users-EditSection-Roles": "Permissões",
+  "Users-Field-Email": "E-mail",
+  "Users-Field-Name": "Nome",
+  "Users-FormGroup-Employee": "Usuário",
+  "Users-MultiSelect-Title": "Adicionar / Remover usuários",
+
+
+  "//": "Validations",
+  "Users-Validations-Email-Exists": "O e-mail já existe.",
+  "Users-Validations-Email-Required": "O e-mail é obrigatório.",
+  "Users-Validations-Name-Required": "O nome é obrigatório.",
+
+  "": ""
+}

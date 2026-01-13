@@ -1,0 +1,9 @@
+<lib-multi-select
+    [title]="'Actions-MultiSelect-Title' | translate"
+    [size]="'7xl'"
+    [itemTemplate]="template"
+></lib-multi-select>
+
+<ng-template #template let-rowData="rowData">
+    {{ rowData.code }}
+</ng-template>
