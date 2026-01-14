@@ -1,4 +1,4 @@
 <Solution>
   <Project Path="ZFinance.Core/ZFinance.Core.csproj" />
-  <Project Path="ZFinance.WebApi/ZFinance.WebAPI.csproj" DisplayName="ZFinance.WebAPI" />
+  <Project Path="ZFinance.WebAPI/ZFinance.WebAPI.csproj" DisplayName="ZFinance.WebAPI" />
 </Solution>
