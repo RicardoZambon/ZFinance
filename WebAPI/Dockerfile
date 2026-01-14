@@ -2,13 +2,20 @@
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /source
 
-# Copy project file(s) and restore dependencies
-COPY *.csproj .
-RUN dotnet restore
+# Copy solution file and project files
+COPY ZFinance.slnx .
+COPY ZFinance.Core/ZFinance.Core.csproj ZFinance.Core/
+COPY ZFinance.WebAPI/ZFinance.WebAPI.csproj ZFinance.WebAPI/
 
-# Copy the rest of the application source code and publish
-COPY . .
-RUN dotnet publish -c Release --no-restore -o /app_publish_output
+# Restore dependencies using the solution
+RUN dotnet restore ZFinance.slnx
+
+# Copy the rest of the application source code
+COPY ZFinance.Core/ ZFinance.Core/
+COPY ZFinance.WebAPI/ ZFinance.WebAPI/
+
+# Publish the WebAPI project
+RUN dotnet publish ZFinance.WebAPI/ZFinance.WebAPI.csproj -c Release --no-restore -o /app_publish_output
 
 # Stage 2: Run the application in a minimal runtime image
 FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS final
