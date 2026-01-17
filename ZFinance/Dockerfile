@@ -12,9 +12,17 @@ FROM nginx:alpine
 # Copy the built application from the 'build' stage to the Nginx server's html directory
 COPY --from=build /app/dist/apps/zfinance/browser /usr/share/nginx/html
 
-# Copy a custom nginx configuration
-COPY ./nginx.conf /etc/nginx/nginx.conf
+# Copy nginx configuration as template
+COPY ./nginx.conf /etc/nginx/nginx.conf.template
+
+# Copy the entrypoint script
+COPY ./docker-entrypoint.sh /docker-entrypoint.sh
+RUN chmod +x /docker-entrypoint.sh
+
+# Set default environment variables
+ENV BACKEND_HOST=localhost
+ENV BACKEND_PORT=8080
 
 EXPOSE 80
 
-CMD ["nginx", "-g", "daemon off;"]
+ENTRYPOINT ["/docker-entrypoint.sh"]
