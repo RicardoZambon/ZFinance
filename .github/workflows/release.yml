@@ -71,8 +71,8 @@ jobs:
           file: ./WebAPI/Dockerfile
           push: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' && needs.version.outputs.new_release_published == 'true' }}
           tags: |
-            ${{ vars.DOCKERHUB_USERNAME }}/zfinance-webapi:latest
-            ${{ vars.DOCKERHUB_USERNAME }}/zfinance-webapi:${{ needs.version.outputs.new_release_version }}
+            zambondev/zfinance-webapi:latest
+            zambondev/zfinance-webapi:${{ needs.version.outputs.new_release_version }}
           labels: |
             org.opencontainers.image.title=ZFinance WebAPI
             org.opencontainers.image.version=${{ needs.version.outputs.new_release_version }}
@@ -104,8 +104,8 @@ jobs:
           file: ./ZFinance/Dockerfile
           push: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' && needs.version.outputs.new_release_published == 'true' }}
           tags: |
-            ${{ vars.DOCKERHUB_USERNAME }}/zfinance-frontend:latest
-            ${{ vars.DOCKERHUB_USERNAME }}/zfinance-frontend:${{ needs.version.outputs.new_release_version }}
+            zambondev/zfinance-frontend:latest
+            zambondev/zfinance-frontend:${{ needs.version.outputs.new_release_version }}
           labels: |
             org.opencontainers.image.title=ZFinance Frontend
             org.opencontainers.image.version=${{ needs.version.outputs.new_release_version }}
