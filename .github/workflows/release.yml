@@ -61,7 +61,7 @@ jobs:
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          username: ${{ vars.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build and push Docker image
@@ -71,8 +71,8 @@ jobs:
           file: ./WebAPI/Dockerfile
           push: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' && needs.version.outputs.new_release_published == 'true' }}
           tags: |
-            ${{ secrets.DOCKERHUB_USERNAME }}/zfinance-webapi:latest
-            ${{ secrets.DOCKERHUB_USERNAME }}/zfinance-webapi:${{ needs.version.outputs.new_release_version }}
+            ${{ vars.DOCKERHUB_USERNAME }}/zfinance-webapi:latest
+            ${{ vars.DOCKERHUB_USERNAME }}/zfinance-webapi:${{ needs.version.outputs.new_release_version }}
           labels: |
             org.opencontainers.image.title=ZFinance WebAPI
             org.opencontainers.image.version=${{ needs.version.outputs.new_release_version }}
@@ -94,7 +94,7 @@ jobs:
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          username: ${{ vars.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build and push Docker image
@@ -104,8 +104,8 @@ jobs:
           file: ./ZFinance/Dockerfile
           push: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' && needs.version.outputs.new_release_published == 'true' }}
           tags: |
-            ${{ secrets.DOCKERHUB_USERNAME }}/zfinance-frontend:latest
-            ${{ secrets.DOCKERHUB_USERNAME }}/zfinance-frontend:${{ needs.version.outputs.new_release_version }}
+            ${{ vars.DOCKERHUB_USERNAME }}/zfinance-frontend:latest
+            ${{ vars.DOCKERHUB_USERNAME }}/zfinance-frontend:${{ needs.version.outputs.new_release_version }}
           labels: |
             org.opencontainers.image.title=ZFinance Frontend
             org.opencontainers.image.version=${{ needs.version.outputs.new_release_version }}
